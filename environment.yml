@@ -1,0 +1,11 @@
+name: praat-environment
+
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - numpy
+  - pandas
+  - praat-parselmouth
+  - glob2
+- dask
