@@ -1,4 +1,10 @@
-numpy==1.13.1
-pandas==0.22.0
-praat-parselmouth==0.3.2
-glob2==0.6
+numpy
+pandas
+praat-parselmouth
+glob2
+flask
+matplotlib
+numpy
+pandas
+requests
+seaborn
