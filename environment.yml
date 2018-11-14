@@ -10,4 +10,4 @@ dependencies:
   - glob2
   - pip
   - pip:
-    - praat_parselmouth-0.3.2-cp34-cp34m-manylinux1_x86_64.whl
+    - praat_parselmouth
