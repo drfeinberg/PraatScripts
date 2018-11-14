@@ -10,4 +10,4 @@ dependencies:
   - glob2
   - pip
   - pip:
-    - https://files.pythonhosted.org/packages/90/38/cf37f71f4922b346b6946397e356f9bd625c67efa5357d681b1c61b0101e/praat_parselmouth-0.3.2-cp34-cp34m-manylinux1_i686.whl
+    - praat_parselmouth-0.3.2-cp34-cp34m-manylinux1_x86_64.whl
