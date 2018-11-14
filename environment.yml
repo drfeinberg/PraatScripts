@@ -10,4 +10,4 @@ dependencies:
   - glob2
   - pip
   - pip:
-    - praat_parselmouth
+    - praat-parselmouth
