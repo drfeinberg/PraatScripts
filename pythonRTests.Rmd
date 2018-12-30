@@ -1,0 +1,51 @@
+---
+title: "Reticulate Tests"
+author: "David R. Feinberg"
+date: "December 30, 2018"
+output: html_document
+---
+
+```{r}
+library(reticulate)
+path_to_python <- "/home/david/anaconda3/bin/python"
+use_python(path_to_python)
+py_config()
+parselmouth <- import("parselmouth.praat")
+praat <- import("parselmouth")
+```
+```{r}
+voiceID <- '/home/david/Dropbox/Python3/Praat/audio/m1750_hi.wav'
+f0min <- 75
+f0max <- 300
+unit <- "Hertz"
+sound <- praat$Sound(voiceID)
+duration <- parselmouth$call(sound, "Get total duration") # duration
+pitch <- parselmouth$call(sound, "To Pitch", 0.0, f0min, f0max) #create a praat pitch object
+meanF0 <- parselmouth$call(pitch, "Get mean", 0, 0, unit) # get mean pitch
+stdevF0 <- parselmouth$call(pitch, "Get standard deviation", 0 ,0, unit) # get standard deviation
+duration
+meanF0
+stdevF0
+```
+
+
+```{python}
+import parselmouth 
+from parselmouth.praat import call
+
+def measurePitch(voiceID, f0min, f0max, unit):
+    sound = parselmouth.Sound(voiceID) # read the sound
+    duration = call(sound, "Get total duration") # duration
+    pitch = call(sound, "To Pitch", 0.0, f0min, f0max) #create a praat pitch object
+    meanF0 = call(pitch, "Get mean", 0, 0, unit) # get mean pitch
+    stdevF0 = call(pitch, "Get standard deviation", 0 ,0, unit) # get standard deviation
+    return duration, meanF0, stdevF0
+
+voiceID = '/home/david/Dropbox/Python3/Praat/audio/m1750_hi.wav'
+f0min = 75
+f0max = 300
+unit = "Hertz"
+(duration, meanF0, stdevF0) = measurePitch(voiceID, f0min, f0max, unit)
+stuff = f"Duration: {duration}\nMean F0: {meanF0}\nStandard Deviation: {stdevF0}"
+print(stuff)
+```
