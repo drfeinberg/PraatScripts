@@ -2,7 +2,8 @@
 
 import math
 import parselmouth
-import statsmodels.api as sm
+import statistics
+
 
 from parselmouth.praat import call
 
@@ -18,36 +19,51 @@ midpoint = end / 2
 
 begintime = midpoint - (window_length / 2)
 endtime = midpoint + (window_length / 2)
-part_to_measure = sound.extract_part(begintime , endtime)
-# part_to_measure.save("part_of_sound.wav", "WAV") # option this for advanced users
+part_to_measure = sound.extract_part(begintime, endtime)
+part_to_measure.save("part_of_sound.wav", "WAV") # option this for advanced users
 spectrum = part_to_measure.to_spectrum()
 total_bins = spectrum.get_number_of_bins()
 dBValue = []
 bins = []
 
 # convert spectral values to dB
-for i in range(2, total_bins):
-    bin_number = (i - 1)
-    currentX = bin_number
-    realValue = spectrum.get_real_value_in_bin(i)
-    imagValue = spectrum.get_imaginary_value_in_bin(i)
-    sumOfSquares = realValue ** 2 + imagValue ** 2
-    rmsPower = sumOfSquares ** 0.5
-    dBValue.append(20 * (math.log10(rmsPower / 0.0002)))
-    bins.append(bin_number)
+for bin in range(total_bins):
+    bin_number = bin + 1
+    realValue = spectrum.get_real_value_in_bin(bin_number)
+    imagValue = spectrum.get_imaginary_value_in_bin(bin_number)
+    rmsPower = math.sqrt((realValue ** 2) + (imagValue ** 2))
+    db = 20 * (math.log10(rmsPower / 0.0002))
+    dBValue.append(db)
+    bin_number += 1
+    bins.append(bin)
 
 # find maximum dB value, for rescaling purposes
 maxdB = max(dBValue)
-mindB = min(dBValue)
+mindB = min(dBValue)  # this is wrong in Owren's script, where mindB = 0
 rangedB = maxdB - mindB
 
-# stretch the spectrum to a normalized range
-# that matches the number of frequency values
+# stretch the spectrum to a normalized range that matches the number of frequency values
 scalingConstant = ((total_bins - 1) / rangedB)
-dBValue = [(value + abs(mindB))*scalingConstant for value in dBValue]
+scaled_dB_values = []
+for value in dBValue:
+    scaled_dBvalue = value + abs(mindB)
+    scaled_dBvalue *= scalingConstant
+    scaled_dB_values.append(scaled_dBvalue)
 
-# find slope of regression
-model = sm.OLS(dBValue,bins)
-results = model.fit()
-spectral_tilt = results.params[0]
-print(spectral_tilt)
+# find slope
+sumXX = 0
+sumXY = 0
+sumX = sum(bins)
+sumY = sum(scaled_dB_values)
+
+for bin in bins:
+    currentX = bin
+    sumXX += currentX ** 2
+    sumXY += currentX * scaled_dB_values[bin]
+
+meanX = statistics.mean(bins)
+meanY = statistics.mean(scaled_dB_values)
+sXX = (sumXX - ((sumX * sumX) / len(bins)))
+sXY = (sumXY - ((sumX * sumY) / len(bins)))
+spectral_tilt = (sXY / sXX)
+print("spectral_tilt", spectral_tilt)
