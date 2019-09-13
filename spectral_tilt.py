@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 
+"""
+Copyright @ 2002-2003 
+Michael J. Owren 
+Psychology of Voice and Sound Research Lab 
+Cornell University 
+mjo9@cornell.edu 
+"""
+
+
+
 import math
 import parselmouth
 import statistics
