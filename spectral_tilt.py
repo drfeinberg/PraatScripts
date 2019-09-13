@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 """
+Adapted from:
 Copyright @ 2002-2003 
 Michael J. Owren 
 Psychology of Voice and Sound Research Lab 
