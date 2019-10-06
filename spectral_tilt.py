@@ -2,13 +2,12 @@
 
 """
 Adapted from:
-Copyright @ 2002-2003 
-Michael J. Owren 
-Psychology of Voice and Sound Research Lab 
-Cornell University 
-mjo9@cornell.edu 
+Copyright @ 2002-2003
+Michael J. Owren
+Psychology of Voice and Sound Research Lab
+Cornell University
+mjo9@cornell.edu
 """
-
 
 
 import math
@@ -38,15 +37,15 @@ dBValue = []
 bins = []
 
 # convert spectral values to dB
-for bin in range(total_bins):
-    bin_number = bin + 1
+for current_bin in range(total_bins):
+    bin_number = current_bin + 1
     realValue = spectrum.get_real_value_in_bin(bin_number)
     imagValue = spectrum.get_imaginary_value_in_bin(bin_number)
     rmsPower = math.sqrt((realValue ** 2) + (imagValue ** 2))
     db = 20 * (math.log10(rmsPower / 0.0002))
     dBValue.append(db)
     bin_number += 1
-    bins.append(bin)
+    bins.append(current_bin)
 
 # find maximum dB value, for rescaling purposes
 maxdB = max(dBValue)
@@ -67,10 +66,10 @@ sumXY = 0
 sumX = sum(bins)
 sumY = sum(scaled_dB_values)
 
-for bin in bins:
-    currentX = bin
+for current_bin in bins:
+    currentX = current_bin
     sumXX += currentX ** 2
-    sumXY += currentX * scaled_dB_values[bin]
+    sumXY += currentX * scaled_dB_values[current_bin]
 
 meanX = statistics.mean(bins)
 meanY = statistics.mean(scaled_dB_values)
