@@ -193,7 +193,7 @@ def speech_rate(filename):
 
 
 def get_files():
-    files = glob('/home/david/Dropbox/Work/collaborations/watkins/men//*.wav')
+    files = glob('/test_voices/*.wav')
     files.extend(glob('test_voices/*.mp3'))
     files.extend(glob('test_voices/*.ogg'))
     files.extend(glob('test_voices/*.aiff'))
