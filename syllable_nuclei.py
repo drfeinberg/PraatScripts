@@ -74,12 +74,6 @@ def speech_rate(filename):
     silencedb = -25
     mindip = 2
     minpause = 0.3
-
-    # print a single header line with column names and units
-    # cols = ['soundname', 'nsyll', 'npause', 'dur(s)', 'phonationtime(s)', 'speechrate(nsyll / dur)', 'articulation '
-    #        'rate(nsyll / phonationtime)', 'ASD(speakingtime / nsyll)']
-    # df = pd.DataFrame(columns = cols)
-
     sound = parselmouth.Sound(filename)
     originaldur = sound.get_total_duration()
     intensity = sound.to_intensity(50)
