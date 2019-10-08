@@ -58,6 +58,7 @@
 #
 #
 # Translated to Python in 2019 by David Feinberg
+# I changed all the variable names so they are human readable
 
 
 
