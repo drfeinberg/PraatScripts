@@ -61,6 +61,7 @@
 
 
 
+import math
 import pandas as pd
 import parselmouth
 
@@ -160,8 +161,8 @@ def speech_rate(filename):
         querytime = validtime[time]
         whichinterval = call(textgrid, "Get interval at time", 1, querytime)
         whichlabel = call(textgrid, "Get label of interval", 1, whichinterval)
-        value = pitch.get_value_at_time(querytime)  # this returns all NAN
-        if value != 'nan':
+        value = pitch.get_value_at_time(querytime) 
+        if not math.isnan(value):
             if whichlabel == "sounding":
                 voicedcount += 1
                 voicedpeak.append(validtime[time])
@@ -193,7 +194,7 @@ def speech_rate(filename):
 
 
 def get_files():
-    files = glob('/test_voices/*.wav')
+    files = glob('test_voices/*.wav')
     files.extend(glob('test_voices/*.mp3'))
     files.extend(glob('test_voices/*.ogg'))
     files.extend(glob('test_voices/*.aiff'))
